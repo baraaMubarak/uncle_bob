@@ -8,6 +8,9 @@ import 'package:uncle_bob/feature/auth/data/models/user_model.dart';
 import 'package:uncle_bob/feature/auth/domain/entities/user.dart';
 import 'package:uncle_bob/feature/auth/domain/repository/auth_repository.dart';
 
+typedef DeleteOrForgotPassword = Future<Unit> Function();
+typedef LoginOrRegister = Future<UserModel> Function();
+
 class AuthRepositoryImp implements AuthRepository {
   final RemoteDataSource remoteDataSource;
   final LocalDataSource localDataSource;
@@ -73,7 +76,7 @@ class AuthRepositoryImp implements AuthRepository {
     });
   }
 
-  Future<Either<Failure, Unit>> _getMessageForDeleteForgotPassword(Future<Unit> Function() callBack) async {
+  Future<Either<Failure, Unit>> _getMessageForDeleteForgotPassword(DeleteOrForgotPassword callBack) async {
     if (await networkInfo.isConnected) {
       try {
         await callBack();
@@ -85,10 +88,11 @@ class AuthRepositoryImp implements AuthRepository {
     return Left(OfflineFailure());
   }
 
-  Future<Either<Failure, User>> _getMessageForLoginRegister(Future<UserModel> Function() callBack) async {
+  Future<Either<Failure, User>> _getMessageForLoginRegister(LoginOrRegister callBack) async {
     if (await networkInfo.isConnected) {
       try {
         final UserModel data = await callBack();
+        await localDataSource.cacheUser(data);
         return Right(data);
       } on ServerException {
         return Left(ServerFailure());

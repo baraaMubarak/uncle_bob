@@ -1,6 +1,7 @@
 # uncle_bob
 
-A new Flutter project.
+This project is a personal reference, 
+containing the steps for creating a simple project using Uncle Bob architecture
 
 ## Getting Started
 

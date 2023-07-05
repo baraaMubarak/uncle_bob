@@ -5,7 +5,7 @@ import 'package:uncle_bob/feature/auth/domain/entities/user.dart';
 abstract class AuthRepository {
   Future<Either<Failure, User>> login(String email, String password);
 
-  Future<Either<Failure, User>> signup(User user);
+  Future<Either<Failure, User>> register(User user);
 
   Future<Either<Failure, Unit>> forgotPassword(String code, String newPassword);
 

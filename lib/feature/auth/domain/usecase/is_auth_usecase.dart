@@ -1,0 +1,13 @@
+import 'package:dartz/dartz.dart';
+import 'package:uncle_bob/core/error/failure.dart';
+import 'package:uncle_bob/feature/auth/domain/repository/auth_repository.dart';
+
+class IsAuthUseCase {
+  AuthRepository authRepository;
+
+  IsAuthUseCase(this.authRepository);
+
+  Future<Either<Failure, bool>> call(String userToken) async {
+    return await authRepository.isAuth(userToken);
+  }
+}

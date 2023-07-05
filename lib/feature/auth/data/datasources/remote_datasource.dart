@@ -9,6 +9,8 @@ abstract class RemoteDataSource {
   Future<Unit> forgotPassword(String code, String newPassword);
 
   Future<Unit> deleteUser(String userId);
+
+  Future<bool> isAuth(String token);
 }
 
 class RemoteDataSourceImp implements RemoteDataSource {
@@ -33,6 +35,12 @@ class RemoteDataSourceImp implements RemoteDataSource {
   @override
   Future<UserModel> register(UserModel user) {
     // TODO: implement register
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> isAuth(String token) {
+    // TODO: implement isAuth
     throw UnimplementedError();
   }
 }

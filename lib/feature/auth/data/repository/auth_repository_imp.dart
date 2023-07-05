@@ -40,15 +40,9 @@ class AuthRepositoryImp implements AuthRepository {
 
   @override
   Future<Either<Failure, User>> login(String email, String password) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final UserModel data = await remoteDataSource.login(email, password);
-        return Right(data);
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    }
-    return Left(OfflineFailure());
+    return await _getMessageForLoginRegister(() {
+      return remoteDataSource.login(email, password);
+    });
   }
 
   @override
@@ -62,22 +56,27 @@ class AuthRepositoryImp implements AuthRepository {
       user.image,
       user.token,
     );
-    if (await networkInfo.isConnected) {
-      try {
-        final UserModel data = await remoteDataSource.register(userModel);
-        return Right(data);
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    }
-    return Left(OfflineFailure());
+    return await _getMessageForLoginRegister(() => remoteDataSource.register(userModel));
   }
 
   @override
   Future<Either<Failure, Unit>> deleteUser(String userToken) async {
+    return await _getMessageForDeleteForgotPassword(() async {
+      return remoteDataSource.deleteUser(userToken);
+    });
+  }
+
+  @override
+  Future<Either<Failure, Unit>> forgotPassword(String code, String newPassword) async {
+    return await _getMessageForDeleteForgotPassword(() async {
+      return remoteDataSource.forgotPassword(code, newPassword);
+    });
+  }
+
+  Future<Either<Failure, Unit>> _getMessageForDeleteForgotPassword(Future<Unit> Function() callBack) async {
     if (await networkInfo.isConnected) {
       try {
-        await remoteDataSource.deleteUser(userToken);
+        await callBack();
         return const Right(unit);
       } on ServerException {
         return Left(ServerFailure());
@@ -86,12 +85,11 @@ class AuthRepositoryImp implements AuthRepository {
     return Left(OfflineFailure());
   }
 
-  @override
-  Future<Either<Failure, Unit>> forgotPassword(String code, String newPassword) async {
+  Future<Either<Failure, User>> _getMessageForLoginRegister(Future<UserModel> Function() callBack) async {
     if (await networkInfo.isConnected) {
       try {
-        await remoteDataSource.forgotPassword(code, newPassword);
-        return const Right(unit);
+        final UserModel data = await callBack();
+        return Right(data);
       } on ServerException {
         return Left(ServerFailure());
       }

@@ -12,7 +12,6 @@ class User extends Equatable {
   const User(this.userName, this.email, this.firstName, this.lastName, this.gender, this.image, this.token);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [
         userName,
         email,

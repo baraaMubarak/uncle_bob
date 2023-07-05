@@ -7,6 +7,7 @@ class LoginUseCase {
   AuthRepository authRepository;
 
   LoginUseCase(this.authRepository);
+
   Future<Either<Failure, User>> call(String email, String password) async {
     return await authRepository.login(email, password);
   }

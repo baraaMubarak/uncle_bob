@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uncle_bob/core/color_schemes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,10 +10,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      // theme:
-      home: Text('Flutter Demo Home Page'),
+      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+      themeMode: ThemeMode.dark,
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Flutter Demo'),
+        ),
+        body: const Center(
+          child: Text('Flutter Demo Home Page'),
+        ),
+      ),
     );
   }
 }

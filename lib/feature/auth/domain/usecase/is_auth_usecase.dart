@@ -7,7 +7,7 @@ class IsAuthUseCase {
 
   IsAuthUseCase(this.authRepository);
 
-  Future<Either<Failure, bool>> call(String userToken) async {
+  Future<Either<Failure, bool>> call({required String userToken}) async {
     return await authRepository.isAuth(userToken);
   }
 }

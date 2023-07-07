@@ -7,7 +7,7 @@ class ForgotPasswordUseCase {
 
   ForgotPasswordUseCase(this.authRepository);
 
-  Future<Either<Failure, Unit>> call(String code, String newPassword) async {
+  Future<Either<Failure, Unit>> call({required String code, required String newPassword}) async {
     return await authRepository.forgotPassword(code, newPassword);
   }
 }

@@ -7,7 +7,7 @@ class DeleteUserUseCase {
 
   DeleteUserUseCase(this.authRepository);
 
-  Future<Either<Failure, Unit>> call(String userToken) async {
+  Future<Either<Failure, Unit>> call({required String userToken}) async {
     return await authRepository.deleteUser(userToken);
   }
 }

@@ -5,7 +5,7 @@ import 'package:uncle_bob/feature/auth/domain/repository/auth_repository.dart';
 class IsAuthUseCase {
   AuthRepository authRepository;
 
-  IsAuthUseCase(this.authRepository);
+  IsAuthUseCase({required this.authRepository});
 
   Future<Either<Failure, bool>> call({required String userToken}) async {
     return await authRepository.isAuth(userToken);

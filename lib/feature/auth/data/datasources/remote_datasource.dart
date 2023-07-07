@@ -23,7 +23,7 @@ const BASE_URL = 'https://dummyjson.com';
 class RemoteDataSourceImp implements RemoteDataSource {
   http.Client client;
 
-  RemoteDataSourceImp(this.client);
+  RemoteDataSourceImp({required this.client});
 
   @override
   Future<UserModel> register(UserModel user) async {

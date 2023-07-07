@@ -6,7 +6,7 @@ import 'package:uncle_bob/feature/auth/domain/repository/auth_repository.dart';
 class RegisterUseCase {
   AuthRepository authRepository;
 
-  RegisterUseCase(this.authRepository);
+  RegisterUseCase({required this.authRepository});
 
   Future<Either<Failure, User>> call(User user) async {
     return await authRepository.register(user);

@@ -14,7 +14,7 @@ abstract class LocalDataSource {
 class LocalDataSourceImp implements LocalDataSource {
   final SharedPreferences sharedPreferences;
 
-  LocalDataSourceImp(this.sharedPreferences);
+  LocalDataSourceImp({required this.sharedPreferences});
 
   @override
   Future<Unit> cacheUser(UserModel userModel) {

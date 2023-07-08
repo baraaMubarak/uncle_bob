@@ -11,9 +11,10 @@ import 'package:uncle_bob/feature/auth/domain/usecase/delete_user_usecase.dart';
 import 'package:uncle_bob/feature/auth/domain/usecase/forgot_password_usecase.dart';
 import 'package:uncle_bob/feature/auth/domain/usecase/is_auth_usecase.dart';
 import 'package:uncle_bob/feature/auth/domain/usecase/login_usecase.dart';
-import 'package:uncle_bob/feature/auth/domain/usecase/registre_usecase.dart';
 import 'package:uncle_bob/feature/auth/presentation/bloc/forgot_and_delete_user_and_isauth/auth2_bloc.dart';
 import 'package:uncle_bob/feature/auth/presentation/bloc/login_and_register_bloc/auth_bloc.dart';
+
+import 'feature/auth/domain/usecase/registre_usecase.dart';
 
 final sl = GetIt.instance;
 
@@ -45,7 +46,7 @@ Future<void> init() async {
       ));
 
   // Data Source
-  sl.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImp(client: sl()));
+  sl.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImp(client: http.Client()));
   sl.registerLazySingleton<LocalDataSource>(() => LocalDataSourceImp(sharedPreferences: sl()));
 
   /// core
@@ -60,6 +61,6 @@ Future<void> init() async {
   sl.registerLazySingleton(() => sharedPreferences);
 
   // http client
-  sl.registerLazySingleton(() => http.Client());
+  sl.registerLazySingleton<http.Client>(() => http.Client());
   sl.registerLazySingleton(() => InternetConnectionChecker());
 }

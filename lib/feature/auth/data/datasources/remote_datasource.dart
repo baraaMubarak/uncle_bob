@@ -49,11 +49,12 @@ class RemoteDataSourceImp implements RemoteDataSource {
   Future<UserModel> login(String email, String password) async {
     final response = await client.post(
       Uri.parse('$BASE_URL/auth/login'),
-      headers: {'Content-Type': 'application/json'},
+      // headers: {'Content-Type': 'application/json'},
       body: {'username': email, 'password': password},
     );
     if (response.statusCode == 200) {
-      return UserModel.fromJson(json.decode(response.body));
+      print(response.body);
+      return UserModel.fromJson(json.decode(response.body.toString()));
     }
     throw ServerException();
   }

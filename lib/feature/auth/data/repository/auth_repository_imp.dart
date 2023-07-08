@@ -97,7 +97,8 @@ class AuthRepositoryImp implements AuthRepository {
       } on ServerException {
         return Left(ServerFailure());
       }
+    } else {
+      return Left(ServerFailure());
     }
-    return Left(OfflineFailure());
   }
 }

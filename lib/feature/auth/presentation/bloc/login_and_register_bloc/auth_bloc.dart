@@ -22,7 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEvent>((event, emit) async {
       if (event is LoginEvent) {
         emit(LoadingAuthState());
-        final failureOrUser = await loginUseCase(event.email, event.password);
+        final failureOrUser = await loginUseCase(email: event.email, password: event.password);
         failureOrUser.fold(
           (failure) => {
             emit(

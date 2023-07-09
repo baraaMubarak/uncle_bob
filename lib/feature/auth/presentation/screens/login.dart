@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uncle_bob/core/widgets/loading_widget.dart';
+import 'package:uncle_bob/feature/auth/presentation/screens/login_responsive.dart';
 
-import '../../../../core/widgets/loading_widget.dart';
 import '../bloc/login_and_register_bloc/auth_bloc.dart';
-import '../widgets/login_widet.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -21,11 +21,11 @@ class Login extends StatelessWidget {
       builder: (context, state) {
         if (state is AuthInitial || state is ErrorAuthState) {
           if (state is ErrorAuthState) {
-            return LoginWidget(
+            return LoginResponsive(
               errorMessage: state.error,
             );
           }
-          return LoginWidget();
+          return const LoginResponsive();
         } else if (state is LoadingAuthState) {
           return const LoadingWidget();
         } else if (state is SuccessAuthState) {

@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uncle_bob/core/network/network_info.dart';
+import 'package:uncle_bob/core/network/network_infoImp_for_mobile.dart';
+import 'package:uncle_bob/core/network/network_info_imp_for_other.dart';
 import 'package:uncle_bob/feature/auth/data/datasources/local_datasource.dart';
 import 'package:uncle_bob/feature/auth/data/datasources/remote_datasource.dart';
 import 'package:uncle_bob/feature/auth/data/repository/auth_repository_imp.dart';
@@ -52,7 +54,11 @@ Future<void> init() async {
   /// core
 
   // network connection
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImp(internetConnectionChecker: sl()));
+  if (kIsWeb) {
+    sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpForOther());
+  } else {
+    sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpForMobile());
+  }
 
   /// External
 
@@ -62,5 +68,5 @@ Future<void> init() async {
 
   // http client
   sl.registerLazySingleton<http.Client>(() => http.Client());
-  sl.registerLazySingleton(() => InternetConnectionChecker());
+  // sl.registerLazySingleton(() => InternetConnectionChecker());
 }
